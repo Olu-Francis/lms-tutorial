@@ -51,7 +51,7 @@ const CreateCoursePage = () => {
     <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
       <div>
         <h1 className="text-2xl">Course Name</h1>
-        <p className="text-xs text-slate-600">Don't worry</p>
+        <p className="text-xs text-slate-600">Name can be edited later</p>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
