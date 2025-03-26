@@ -88,7 +88,7 @@ export const ChapterVideoForm = ({
                         }}
                     />
                     <div className="text-xs text-muted-foreground mt-4">
-                        Upload this chaper's video.
+                        Upload this chaper&apos;s video.
                     </div>
                 </div>
             )}
