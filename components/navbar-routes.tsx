@@ -1,22 +1,37 @@
 "use client"
 
-import { UserButton } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
+import { useAuth, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
+import { isInstructor } from "@/lib/instructor";
 
 export const NavbarRoutes = () => {
+    const { userId } = useAuth();
     const pathname = usePathname();
 
     const isInstructorPage = pathname?.startsWith("/instructor");
     const isCoursePage = pathname?.includes("/course");
     const isSearchPage = pathname === "/search";
 
-    return(
+    const [isInstructorUser, setIsInstructorUser] = useState(false);
+
+    useEffect(() => {
+        const checkInstructorStatus = async () => {
+            if (userId) {
+                const result = await isInstructor(userId);
+                setIsInstructorUser(result);
+            }
+        };
+        checkInstructorStatus();
+    }, [userId]);
+
+    return (
         <>
-            {isSearchPage &&  (
+            {isSearchPage && (
                 <div className="hidden md:block">
                     <SearchInput />
                 </div>
@@ -29,15 +44,15 @@ export const NavbarRoutes = () => {
                             Exit
                         </Button>
                     </Link>
-                ) : (
+                ) : isInstructorUser ? (
                     <Link href="/instructor/courses" className="mt-2">
                         <Button size={"sm"} variant={"ghost"}>
-                            Instructor mode 
+                            Instructor mode
                         </Button>
                     </Link>
-                )}
+                ) : null}
                 <UserButton />
             </div>
         </>
     );
-}
+};
