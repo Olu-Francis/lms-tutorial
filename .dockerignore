@@ -1,0 +1,9 @@
+# Ignore node modules and build output
+node_modules
+.next
+build
+
+# Ignore logs and other unnecessary files
+npm-debug.log
+Dockerfile
+.dockerignore

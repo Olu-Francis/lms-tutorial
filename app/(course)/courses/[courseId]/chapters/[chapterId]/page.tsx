@@ -9,9 +9,10 @@ import { Preview } from "@/components/preview";
 import { File } from "lucide-react";
 import { CourseProgressButton } from "./_components/course-progress-button";
 
-const CourseIdPage = async ({
+const ChapterIdPage = async ({
   params: { courseId, chapterId },
 }: {
+  // @ts-ignore
   params: { courseId: string; chapterId: string };
 }) => {
   const { userId } = await auth();
@@ -101,4 +102,4 @@ const CourseIdPage = async ({
   );
 };
 
-export default CourseIdPage;
+export default ChapterIdPage;

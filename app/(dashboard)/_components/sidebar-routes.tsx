@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart2, Layout, List, Search } from "lucide-react";
+import { BarChart2, Code, Layout, List, Search } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
 import { usePathname } from "next/navigation";
 
@@ -15,6 +15,11 @@ const guestRoutes = [
         label: "Search Course",
         herf: "/search",
     },
+    {
+        icon: Code,
+        label: "Dedug Pratice",
+        herf: "/debug",
+    }
 ]
 
 const instructorRoutes = [

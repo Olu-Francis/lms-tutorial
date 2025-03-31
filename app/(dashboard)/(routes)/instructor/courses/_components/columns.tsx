@@ -13,9 +13,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-
+// This is used to define the shape of the in the table data.
 
 export const columns: ColumnDef<Course>[] = [
   {

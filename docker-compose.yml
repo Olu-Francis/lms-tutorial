@@ -1,0 +1,41 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      DATABASE_URL: 'mysql://user:password@db:3306/mydatabase'
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - db_data:/var/lib/mysql
+
+  migrate:
+    image: node:alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./prisma:/app/prisma
+    command: >
+      sh -c "
+      npm install --force &&
+      npx prisma migrate deploy &&
+      node scripts/seed.js"
+    environment:
+      DATABASE_URL: 'mysql://user:password@db:3306/mydatabase'
+    depends_on:
+      - db
+
+volumes:
+  db_data: {}
