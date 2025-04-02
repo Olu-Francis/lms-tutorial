@@ -21,15 +21,14 @@ const LanguageSelector = ({ language,  onSelect }) => {
   };
 
   return(
-    <div>
-      <p className="mb-2 font-medium">Practice Level. Plese select a challenge: </p>
+    <div className="mb-4">
+      <p className="mb-2 font-medium">Please select a challenge: </p>
       <Select value={selectedLanguage} onValueChange={handleSelectChange}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Debug_Excercise_L0" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Change the language ({language})</SelectLabel>
             {
               languages.map(([language, version]) => (
                 <SelectItem key={language} value={language} onClick={() => onSelect(language)}>
