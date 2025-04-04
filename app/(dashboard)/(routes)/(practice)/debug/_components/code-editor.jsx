@@ -1,13 +1,8 @@
 import { Editor } from "@monaco-editor/react";
-import { useCallback, useRef, useState } from "react";
-import LanguageSelector from "./language-selector";
+import { useRef, useState } from "react";
+import LanguageSelector from "./excercise-selector";
 import CODE_SNIPPETS from "@/app/constants";
 import Output from "./output.jsx";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable"
 
 const CodeEditor = () => {
   const editorRef = useRef();
