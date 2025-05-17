@@ -1,46 +1,57 @@
 import { db } from "@/lib/db";
 import { Categories } from "./_components/categories";
-import { SearchInput } from "@/components/search-input";
+import dynamic from "next/dynamic";
 import { getCourses } from "@/actions/get-courses";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { CoursesList } from "@/components/courses-list";
 
-interface SearchPageProps {
-  searchParams:  Promise<{ [key: string]: string | string[] | undefined }>
-}
+const SearchInput = dynamic(() => import("@/components/search-input"), {
+  loading: () => <div>Loading search...</div>,
+});
 
-const SearchPage = async ({ searchParams }: SearchPageProps) => {
-  const { userId } = await auth();
-  const { categoryId, title } = await searchParams;
+const SearchPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  try {
+    const { userId } = await auth();
+    const resolvedSearchParams = await searchParams;
+    const { categoryId, title } = resolvedSearchParams;
 
-  if (!userId) {
-    return redirect("/");
+    if (!userId) {
+      return redirect("/");
+    }
+
+    const categories = await db.category.findMany({
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+    const courses = await getCourses({
+      userId,
+      title: title as string,
+      categoryId: categoryId as string,
+    });
+
+    return (
+      <>
+        <div className="px-6 pt-6 md:hidden md:mb-0 block">
+          <SearchInput />
+        </div>
+        <div className="p-6 space-y-4">
+          <Categories items={categories} />
+          <CoursesList items={courses} />
+        </div>
+      </>
+    );
+  } catch (error) {
+    console.error("Error in SearchPage:", error);
+    return <div>Error loading page</div>;
   }
-
-  const categories = await db.category.findMany({
-    orderBy: {
-      name: "asc",
-    },
-  });
-
-  const courses = await getCourses({
-    userId,
-    title: title as string,
-    categoryId: categoryId as string,
-  });
-
-  return (
-    <>
-      <div className="px-6 pt-6 md:hidden md:mb-0 block">
-        <SearchInput />
-      </div>
-      <div className="p-6  space-y-4">
-        <Categories items={categories} />
-        <CoursesList items={courses} />
-      </div>
-    </>
-  );
 };
 
 export default SearchPage;
+
