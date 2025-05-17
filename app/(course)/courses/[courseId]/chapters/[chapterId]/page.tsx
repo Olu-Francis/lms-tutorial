@@ -10,13 +10,13 @@ import { File } from "lucide-react";
 import { CourseProgressButton } from "./_components/course-progress-button";
 
 const ChapterIdPage = async ({
-  params: { courseId, chapterId },
+  params,
 }: {
-  // @ts-ignore
-  params: { courseId: string; chapterId: string };
+  params: Promise <{ courseId: string; chapterId: string }>;
 }) => {
   const { userId } = await auth();
   if (!userId) return redirect("/");
+  const { courseId, chapterId } = await params;
 
   const {
     chapter,

@@ -18,11 +18,10 @@ import { Actions } from "./_components/actions";
 const CourseIdPage = async ({
     params
 }: {
-    params: { courseId: string }
+    params: Promise <{ courseId: string }>
 }) => {
 
-    const resolvedParams = await params; // Await params first
-    const { courseId } = resolvedParams;
+    const { courseId } = await params;
 
     const { userId } = await auth();
 
@@ -89,7 +88,7 @@ const CourseIdPage = async ({
                             Complete all fields {completionText}
                         </span>
                     </div>
-                    <Actions disabled={!isComplete} courseId={params.courseId} isPublished={course.isPublished}/>
+                    <Actions disabled={!isComplete} courseId={courseId} isPublished={course.isPublished}/>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
                     <div>

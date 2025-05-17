@@ -1,6 +1,6 @@
 "use client"
 
-import { executeCode } from '@/app/api/debug/route';
+import { executeCode } from '@/app/api/debug/index';
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useState } from "react";

@@ -7,14 +7,12 @@ import { redirect } from "next/navigation";
 import { CoursesList } from "@/components/courses-list";
 
 interface SearchPageProps {
-  searchParams: {
-    title: string;
-    categoryId: string;
-  };
+  searchParams:  Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
   const { userId } = await auth();
+  const { categoryId, title } = await searchParams;
 
   if (!userId) {
     return redirect("/");
@@ -28,7 +26,8 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
   const courses = await getCourses({
     userId,
-    ...searchParams,
+    title: title as string,
+    categoryId: categoryId as string,
   });
 
   return (

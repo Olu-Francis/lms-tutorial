@@ -4,10 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function PUT(
     req: Request,
-    { params }: { params: { courseId: string } }
+    { params }: { params: Promise<{ courseId: string }> }
 ){
     try{
         const { userId } = await auth();
+        const { courseId } = await params;
 
         if (!userId) {
             return new NextResponse ("Unauthorized", { status: 401 });
@@ -17,7 +18,7 @@ export async function PUT(
 
         const courseOwner = await db.course.findUnique({
             where:{
-                id: params.courseId,
+                id: courseId,
                 userId: userId,
             }
         });

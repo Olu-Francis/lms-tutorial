@@ -52,6 +52,7 @@ type IconVariantsProps = VariantProps<typeof iconVariants>;
 
 interface IconBadgeProps extends BackgroundVariantsProps, IconVariantsProps{
     icon: LucideIcon;
+    size?: any;
 };
 
 export const IconBadge = ({

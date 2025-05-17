@@ -14,10 +14,11 @@ import { ChapterActions } from "./_components/chapter-actions";
 const ChapterIdPage = async ({
     params
 }: {
-    params: { courseId: string; chapterId: string; }
+    params: Promise<{ courseId: string; chapterId: string; }>
 }) => {
 
     const { userId } = await auth();
+    const { courseId, chapterId } = await params;
 
     if (!userId) {
         return redirect("/");
@@ -25,8 +26,8 @@ const ChapterIdPage = async ({
 
     const chapter = await db.chapter.findUnique ({
         where: {
-            id: await params.chapterId, 
-            courseId: await params.courseId
+            id: await chapterId, 
+            courseId: await courseId
         }, 
         include: {
             muxData: true,
@@ -59,7 +60,7 @@ const ChapterIdPage = async ({
                 <div className="flex items-center justify-between">
                     <div className="w-full">
                         <Link 
-                            href={`/instructor/courses/${params.courseId}`}
+                            href={`/instructor/courses/${courseId}`}
                             className="flex items-center text-sm hover:opacity-75 transition mb-6"
                         >
                             <ArrowLeft className="h-4 w-4 mr-2" /> Back
@@ -74,7 +75,7 @@ const ChapterIdPage = async ({
                                 </span>
                             </div>
                             <ChapterActions
-                                disabled={!isComplete} courseId={params.courseId} chapterId={params.chapterId} isPublished={chapter.isPublished}
+                                disabled={!isComplete} courseId={courseId} chapterId={chapterId} isPublished={chapter.isPublished}
                             />
                         </div>
                     </div>
@@ -86,8 +87,8 @@ const ChapterIdPage = async ({
                                 <IconBadge icon={LayoutDashboard} />
                                 <h2 className="text-xl">Customize your chapter</h2>
                             </div>
-                            <ChapterTitleForm initialData={chapter} courseId={params.courseId} chapterId={params.chapterId} />
-                            <ChapterDescriptionForm initialData={chapter} courseId={params.courseId} chapterId={params.chapterId} />
+                            <ChapterTitleForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
+                            <ChapterDescriptionForm initialData={chapter} courseId={courseId} chapterId={chapterId} />
                         </div>
                         <div>
                             <div className="flex items-center gap-x-2">
@@ -96,7 +97,7 @@ const ChapterIdPage = async ({
                                     Access Settings
                                 </h2>
                             </div>
-                            <ChapterAccessForm initialData={chapter} courseId={params.courseId} chapterId={params.chapterId}/>
+                            <ChapterAccessForm initialData={chapter} courseId={courseId} chapterId={chapterId}/>
                         </div>
                     </div>
                     <div>
@@ -106,7 +107,7 @@ const ChapterIdPage = async ({
                                 Add a video
                             </h2>
                         </div>
-                        <ChapterVideoForm courseId={params.courseId} chapterId={params.chapterId} initialData={chapter} />
+                        <ChapterVideoForm courseId={courseId} chapterId={chapterId} initialData={chapter} />
                     </div>
                 </div>
             </div>

@@ -3,8 +3,9 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 export async function PATCH(
   reg: Request,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: Promise<{ courseId: string; chapterId: string }> }
 ) {
+  const { courseId, chapterId } = await params;
   try {
     const { userId } = await auth();
 
@@ -14,7 +15,7 @@ export async function PATCH(
 
     const ownCourse = await db.course.findUnique({
       where: {
-        id: params.courseId,
+        id: courseId,
         userId,
       },
     });
@@ -25,14 +26,14 @@ export async function PATCH(
 
     const chapter = await db.chapter.findUnique({
       where: {
-        id: params.chapterId,
-        courseId: params.courseId,
+        id: chapterId,
+        courseId: courseId,
       },
     });
 
     const muxData = await db.muxData.findUnique({
       where: {
-        chapterId: params.chapterId,
+        chapterId: chapterId,
       },
     });
 
@@ -48,8 +49,8 @@ export async function PATCH(
 
     const publishedChapter = await db.chapter.update({
       where: {
-        id: params.chapterId,
-        courseId: params.courseId,
+        id: chapterId,
+        courseId: courseId,
       },
       data: {
         isPublished: true,

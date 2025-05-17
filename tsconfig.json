@@ -31,7 +31,7 @@
     "app/(dashboard)/(routes)/(practice)/debug/_components/code-editor.jsx",
     "app/(dashboard)/(routes)/(practice)/debug/_components/excercise-selector.jsx",
     "app/constants.js",
-    "app/api/debug/route.js",
+    "app/api/debug/index.js",
     "app/(dashboard)/(routes)/(practice)/debug/_components/output.jsx"
   ],
   "exclude": ["node_modules"]

@@ -7,12 +7,13 @@ import { CourseNavbar } from "./_component/course-navbar";
 
 const CourseLayout = async ({ 
     children,
-    params
+    params,
 }: {
     children: React.ReactNode;
-    params: { courseId: string };
+    params: Promise <{ courseId: string }>;
 }) => {
     const { userId } = await auth()
+    const { courseId } = await params;
 
     if (!userId) {
         return redirect("/")
@@ -20,7 +21,7 @@ const CourseLayout = async ({
 
     const course = await db.course.findUnique({
         where:{
-            id: params.courseId,
+            id: courseId,
         },
         include:{
             chapters:{
