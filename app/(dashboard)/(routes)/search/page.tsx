@@ -15,43 +15,37 @@ const SearchPage = async ({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  try {
-    const { userId } = await auth();
-    const resolvedSearchParams = await searchParams;
-    const { categoryId, title } = resolvedSearchParams;
+  const { userId } = await auth();
+  const resolvedSearchParams = await searchParams;
+  const { categoryId, title } = resolvedSearchParams;
 
-    if (!userId) {
-      return redirect("/");
-    }
-
-    const categories = await db.category.findMany({
-      orderBy: {
-        name: "asc",
-      },
-    });
-
-    const courses = await getCourses({
-      userId,
-      title: title as string,
-      categoryId: categoryId as string,
-    });
-
-    return (
-      <>
-        <div className="px-6 pt-6 md:hidden md:mb-0 block">
-          <SearchInput />
-        </div>
-        <div className="p-6 space-y-4">
-          <Categories items={categories} />
-          <CoursesList items={courses} />
-        </div>
-      </>
-    );
-  } catch (error) {
-    console.error("Error in SearchPage:", error);
-    return <div>Error loading page</div>;
+  if (!userId) {
+    return redirect("/");
   }
+
+  const categories = await db.category.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
+
+  const courses = await getCourses({
+    userId,
+    title: title as string,
+    categoryId: categoryId as string,
+  });
+
+  return (
+    <>
+      <div className="px-6 pt-6 md:hidden md:mb-0 block">
+        <SearchInput />
+      </div>
+      <div className="p-6 space-y-4">
+        <Categories items={categories} />
+        <CoursesList items={courses} />
+      </div>
+    </>
+  );
 };
 
 export default SearchPage;
-
