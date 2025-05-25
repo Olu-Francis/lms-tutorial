@@ -1,3 +1,6 @@
+
+# LMS Tutorial Project
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -18,6 +21,24 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Database Setup
+
+This project uses a MySQL database, and setup is automated through Docker and Prisma:
+
+1. **Automatic Setup:**
+   - Using **Docker Compose**, the database is set up automatically when the services run. The MySQL service is initialized with a database called `mydatabase`.
+   - The Prisma migrations service applies any necessary schema changes to the database.
+
+2. **Manual Commands:**
+   - If you need to run the migrations manually, use:
+     ```bash
+     npx prisma migrate dev
+     ```
+     This command will initialize the database schema according to the models defined in `prisma/schema.prisma`.
+
+3. **Configuration:**
+   - Ensure that the `DATABASE_URL` in your environment variables is correctly configured to point to the database service.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -32,5 +53,3 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-# lms-tutorial
